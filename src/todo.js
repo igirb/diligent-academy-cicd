@@ -1,3 +1,5 @@
+import {validateTodoExists} from "./validate.js";
+
 export function format(todo) {
   return `${todo.id} - [${todo.done ? 'x': ' '}] ${todo.title}`;
 }
@@ -30,4 +32,13 @@ export function add(store, params) {
   const toStore = [...todos, newTodo]
   store.set(toStore)
   return newTodo;
+}
+
+export function complete(store, id) {
+  const todo = validateTodoExists(store, id);
+
+  todo.done = true;
+  const todos = store.get();
+  store.set(todos);
+  return todo;
 }

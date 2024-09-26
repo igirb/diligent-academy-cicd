@@ -1,5 +1,5 @@
 export function format(todo) {
-  return `${todo.id} - [${todo.done ? "✅" : " "}] ${todo.title}`;
+  return `${todo.id} - [${todo.done ? "x" : " "}] ${todo.title}`;
 }
 
 export function formatList(todos) {
@@ -34,9 +34,7 @@ export function add(store, params) {
 
 export function findByTitle(store, title) {
   const todos = store.get();
-  // if (title.length < 3) {
-  //   throw new AppError("The title must be at least 3 characters long.");
-  // }
+
   const foundTodos = todos.filter(
     (todo) => todo.title.toLowerCase() === title.toLowerCase()
   );

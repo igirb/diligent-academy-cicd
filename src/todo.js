@@ -31,3 +31,8 @@ export function add(store, params) {
   store.set(toStore)
   return newTodo;
 }
+
+export function findById(store, id) {
+  const todos = store.get();
+  return todos.find((todo) => todo.id === id);
+}

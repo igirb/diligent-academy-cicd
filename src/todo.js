@@ -1,3 +1,5 @@
+import {validateTodoExists} from "./validate.js";
+
 export function format(todo) {
   return `${todo.id} - [${todo.done ? "x" : " "}] ${todo.title}`;
 }
@@ -32,12 +34,13 @@ export function add(store, params) {
   return newTodo;
 }
 
-export function findByTitle(store, title) {
+
+export function complete(store, id) {
+  const todo = validateTodoExists(store, id);
+
+  todo.done = true;
   const todos = store.get();
-
-  const foundTodos = todos.filter(
-    (todo) => todo.title.toLowerCase() === title.toLowerCase()
-  );
-
-  return foundTodos;
+  store.set(todos);
+  return todo;
 }
+

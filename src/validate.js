@@ -11,16 +11,15 @@ export function validateAddParams(params) {
   return params;
 }
 
-
 export function validateCompleteParams(params) {
-  if(params.length !== 1) {
-    throw new AppError('Provide one number as ID.');
+  if (params.length !== 1) {
+    throw new AppError("Provide one number as ID.");
   }
 
   const [todoId] = params;
 
-  if(isNaN(todoId)) {
-    throw new AppError('Invalid input. Please provide a number as an ID!')
+  if (isNaN(todoId)) {
+    throw new AppError("Invalid input. Please provide a number as an ID!");
   }
 
   return Number(todoId);
@@ -28,7 +27,7 @@ export function validateCompleteParams(params) {
 
 export function validateTodoExists(store, id) {
   const todos = store.get();
-  const todoIndex = todos.findIndex(todo => todo.id === id);
+  const todoIndex = todos.findIndex((todo) => todo.id === id);
 
   if (todoIndex === -1) {
     throw new AppError(`Todo with ID ${id} not found.`);
@@ -37,3 +36,8 @@ export function validateTodoExists(store, id) {
   return todos[todoIndex];
 }
 
+export function validateFindByTitle(store, title) {
+  if (title.length < 3) {
+    throw new AppError("The title must be at least 3 characters long.");
+  }
+}

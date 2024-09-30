@@ -14,7 +14,7 @@ export function validateAddParams(params) {
 
 export function validateCompleteParams(params) {
   if(params.length !== 1) {
-    throw new AppError('Provide an ID as the only parameter in parentheses.');
+    throw new AppError('Provide one number as ID.');
   }
 
   const [todoId] = params;

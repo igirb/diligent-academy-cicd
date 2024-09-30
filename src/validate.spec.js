@@ -1,4 +1,4 @@
-import { validateAddParams } from "./validate";
+import {validateAddParams, validateCompleteParams} from "./validate";
 
 describe('validateAddParams', () => {
   it('should pass and return with the original params with single string', () => {
@@ -48,4 +48,45 @@ describe('validateAddParams', () => {
   })
 
 
+})
+
+describe('ValidateCompleteParams', () => {
+  it('should pass and return the params in number type', () => {
+    const params = [ '4' ];
+    const expected = 4;
+
+    const current = validateCompleteParams(params);
+
+    expect(current).toStrictEqual(expected);
+  })
+
+  it('should pass and return the original params', () => {
+    const params = [ 4 ];
+    const expected = 4;
+
+    const current = validateCompleteParams(params);
+
+    expect(current).toStrictEqual(expected);
+  })
+
+  it('should throw when multiple number is given', () => {
+    const params = [4, 5, 3];
+
+    expect(() => validateCompleteParams(params))
+        .toThrow('Provide one number as ID.');
+  })
+
+  it('should throw when not a number or a number with string type is given', () => {
+    const params = [ 'eleven' ];
+
+    expect(() => validateCompleteParams(params))
+        .toThrow('Invalid input. Please provide a number as an ID!');
+  })
+
+  it('should throw when the param is empty', () => {
+    const params = [];
+
+    expect(() => validateCompleteParams(params))
+        .toThrow('Provide one number as ID.');
+  })
 })

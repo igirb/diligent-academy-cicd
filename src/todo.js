@@ -43,6 +43,20 @@ export function complete(store, id) {
   return todo;
 }
 
+export function complete(store, id) {
+  const todos = store.get();
+  const todo = validateTodoExists(store, id);
+
+  todo.done = true;
+
+  const index = todos.findIndex((todo) => todo.id === id);
+  todos[index] = todo;
+
+  store.set(todos);
+
+  return todo;
+}
+
 export function findByTitle(store, title) {
   validateFindByTitle(store, title);
   const todos = store.get();

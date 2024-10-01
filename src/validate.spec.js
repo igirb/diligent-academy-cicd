@@ -157,3 +157,38 @@ describe('validateTodoExists', () => {
             .toThrow(`Todo with ID ${id} not found.`);
     });
 });
+
+describe("validateFindById", () => {
+  it("should pass and return the numeric ID when a valid numeric ID is provided", () => {
+    const params = ["4"];
+    const expected = 4;
+
+    const current = validateFindById(params);
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it("should throw an error when a non-numeric ID is provided", () => {
+    const params = ["abc"]; // non-numeric ID
+
+    expect(() => validateFindById(params)).toThrow(
+      "The ID must be a numeric value."
+    );
+  });
+
+  it("should throw an error when no ID is provided", () => {
+    const params = [];
+
+    expect(() => validateFindById(params)).toThrow(
+      'Invalid number of parameters for "find-by-id". Expected 1 parameter.'
+    );
+  });
+
+  it("should throw an error when multiple parameters are provided", () => {
+    const params = ["1", "2"];
+
+    expect(() => validateFindById(params)).toThrow(
+      'Invalid number of parameters for "find-by-id". Expected 1 parameter.'
+    );
+  });
+});

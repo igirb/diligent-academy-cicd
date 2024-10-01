@@ -42,6 +42,22 @@ export function validateFindByTitle(store, title) {
   }
 }
 
+export function validateFindById(params) {
+  if (params.length !== 1) {
+    throw new AppError(
+      "Invalid number of parameters for 'find-by-id'. Expected 1 parameter."
+    );
+  }
+
+  const id = parseInt(params[0], 10);
+
+  if (isNaN(id)) {
+    throw new AppError("The ID must be a numeric value.");
+  }
+
+  return id;
+}
+
 export function validateUpdateTodo(store, id, newTitle) {
   if (!id || isNaN(id)) {
     throw new AppError("Provide a valid id number.");

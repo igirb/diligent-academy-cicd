@@ -13,6 +13,7 @@ import {
   validateAddParams,
   validateCompleteParams,
   validateFindByTitle,
+  validateFindById,
   validateTodoExists,
   validateUpdateTodo,
 } from "./validate.js";
@@ -34,6 +35,11 @@ export function createApp(todoStore, args) {
       const todoId = validateCompleteParams(params);
       const completedTodo = complete(todoStore, todoId);
       display(["Todo completed:", format(completedTodo)]);
+      break;
+    case "find-by-id":
+      const id = validateFindById(params);
+      const foundTodo = findById(todoStore, id);
+      display(["Found todo:", format(foundTodo)]);
       break;
     case "find-by-title":
       const [title] = params;

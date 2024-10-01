@@ -93,3 +93,19 @@ export function findById(store, id) {
 
   return todo;
 }
+
+export function findByStatus(store, status) {
+  const todos = store.get();
+  let foundTodosByStatus;
+  if (status === "done") {
+    foundTodosByStatus = todos.filter((todo) =>
+      todo.done === true ? todo : ""
+    );
+  } else if (status === "not-done") {
+    foundTodosByStatus = todos.filter((todo) =>
+      todo.done !== true ? todo : ""
+    );
+  }
+
+  return foundTodosByStatus;
+}

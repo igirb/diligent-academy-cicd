@@ -6,6 +6,7 @@ import {
   complete,
   findByTitle,
   updateTitle,
+  findByStatus,
 } from "./todo.js";
 import { display } from "./display.js";
 import { AppError } from "./app-error.js";
@@ -16,6 +17,7 @@ import {
   validateFindById,
   validateTodoExists,
   validateUpdateTodo,
+  validateFindByStatus,
 } from "./validate.js";
 
 export function createApp(todoStore, args) {
@@ -59,6 +61,12 @@ export function createApp(todoStore, args) {
       validateUpdateTodo(todoStore, validatedTodoId, newTitle);
       const updatedTodo = updateTitle(todoStore, validatedTodoId, newTitle);
       display(["Updated todo:", format(updatedTodo)]);
+      break;
+    case "find-by-status":
+      const [status] = params;
+      validateFindByStatus(todoStore, status);
+      const foundTodosByStatus = findByStatus(todoStore, status);
+      display(["Found todos:", formatList(foundTodosByStatus)]);
       break;
     default:
       throw new AppError(`Unknown command: ${command}`);

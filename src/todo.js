@@ -3,6 +3,7 @@ import {
   validateTodoExists,
   validateUpdateTodo,
 } from "./validate.js";
+import { AppError } from "./app-error.js";
 
 export function format(todo) {
   return `${todo.id} - [${todo.done ? "x" : " "}] ${todo.title}`;
@@ -71,4 +72,22 @@ export function updateTitle(store, id, newTitle) {
   currentTodo.title = newTitle;
   store.set(todos);
   return currentTodo;
+}
+
+
+export function findById(store, id) {
+  const numericId = parseInt(id, 10);
+
+  if (isNaN(numericId)) {
+    throw new AppError("The ID must be a numeric value.");
+  }
+
+  const todos = store.get();
+  const todo = todos.find((todo) => todo.id === numericId);
+
+  if (!todo) {
+    throw new AppError(`No todo found with ID: ${numericId}`);
+  }
+
+  return todo;
 }

@@ -1,5 +1,6 @@
 import { jest } from '@jest/globals';
-import { add, format, formatList, list } from './todo.js';
+import { add, format, formatList, list, findById } from "./todo.js";
+import { validateFindById } from "./validate.js";
 
 function createMockStore(data) {
   return {
@@ -135,6 +136,54 @@ describe('add', () => {
   });
 });
 
+describe("findById", () => {
+  it("should return the correct todo when a valid ID is provided", () => {
+    const mockStore = createMockStore([
+      { id: 1, title: "Todo 1", done: false },
+      { id: 2, title: "Todo 2", done: true },
+    ]);
 
+    const id = 1;
+    const expected = { id: 1, title: "Todo 1", done: false };
+
+    const current = findById(mockStore, id);
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it("should throw an error when a non-numeric ID is provided", () => {
+    const mockStore = createMockStore([
+      { id: 1, title: "Todo 1", done: false },
+      { id: 2, title: "Todo 2", done: true },
+    ]);
+
+    const invalidId = "abc"; // non-numeric ID
+
+    expect(() => findById(mockStore, invalidId)).toThrow(
+      "The ID must be a numeric value."
+    );
+  });
+
+  it("should throw an error when the ID does not exist", () => {
+    const mockStore = createMockStore([
+      { id: 1, title: "Todo 1", done: false },
+      { id: 2, title: "Todo 2", done: true },
+    ]);
+
+    const nonExistentId = 3;
+
+    expect(() => findById(mockStore, nonExistentId)).toThrow(
+      `No todo found with ID: ${nonExistentId}`
+    );
+  });
+
+  it("should throw an error when no ID is provided", () => {
+    const params = [];
+
+    expect(() => validateFindById(params)).toThrow(
+      "Invalid number of parameters for 'find-by-id'. Expected 1 parameter."
+    );
+  });
+});
 
 

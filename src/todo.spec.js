@@ -1,5 +1,6 @@
 import { jest } from '@jest/globals';
-import { add, format, formatList, list } from './todo.js';
+import { add, format, formatList, list, findById } from "./todo.js";
+import { validateFindById } from "./validate.js";
 
 function createMockStore(data) {
   return {
@@ -180,7 +181,7 @@ describe("findById", () => {
     const params = [];
 
     expect(() => validateFindById(params)).toThrow(
-      'Invalid number of parameters for "find-by-id". Expected 1 parameter.'
+      "Invalid number of parameters for 'find-by-id'. Expected 1 parameter."
     );
   });
 });

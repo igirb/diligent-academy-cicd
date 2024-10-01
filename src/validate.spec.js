@@ -1,4 +1,9 @@
-import {validateAddParams, validateCompleteParams, validateTodoExists} from "./validate";
+import {
+  validateAddParams,
+  validateCompleteParams,
+  validateTodoExists,
+  validateFindById,
+} from "./validate";
 import {jest} from '@jest/globals';
 
 function createMockStore(data) {
@@ -169,7 +174,7 @@ describe("validateFindById", () => {
   });
 
   it("should throw an error when a non-numeric ID is provided", () => {
-    const params = ["abc"]; // non-numeric ID
+    const params = ["abc"]; 
 
     expect(() => validateFindById(params)).toThrow(
       "The ID must be a numeric value."
@@ -180,7 +185,7 @@ describe("validateFindById", () => {
     const params = [];
 
     expect(() => validateFindById(params)).toThrow(
-      'Invalid number of parameters for "find-by-id". Expected 1 parameter.'
+      "Invalid number of parameters for 'find-by-id'. Expected 1 parameter."
     );
   });
 
@@ -188,7 +193,7 @@ describe("validateFindById", () => {
     const params = ["1", "2"];
 
     expect(() => validateFindById(params)).toThrow(
-      'Invalid number of parameters for "find-by-id". Expected 1 parameter.'
+      "Invalid number of parameters for 'find-by-id'. Expected 1 parameter."
     );
   });
 });

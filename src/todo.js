@@ -43,7 +43,7 @@ export function complete(store, id) {
   const todos = store.get();
   const todo = validateTodoExists(store, id);
   todo.done = true;
-  
+
   const index = todos.findIndex((todo) => todo.id === id);
   todos[index] = todo;
 
@@ -68,12 +68,14 @@ export function findByTitle(store, title) {
 export function updateTitle(store, id, newTitle) {
   validateUpdateTodo(store, id, newTitle);
   const todos = store.get();
-  const currentTodo = todos.find((todo) => todo.id === id);
+  const currentTodo = validateTodoExists(store, id);
   currentTodo.title = newTitle;
-  store.set(todos);
+  const updatedTodos = todos.map((todo) =>
+    todo.id === id ? currentTodo : todo
+  );
+  store.set(updatedTodos);
   return currentTodo;
 }
-
 
 export function findById(store, id) {
   const numericId = parseInt(id, 10);

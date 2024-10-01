@@ -59,10 +59,8 @@ export function validateFindById(params) {
 }
 
 export function validateUpdateTodo(store, id, newTitle) {
-  if (!id || isNaN(id)) {
-    throw new AppError("Provide a valid id number.");
-  }
   if (!newTitle) {
     throw new AppError("The new title must be at least 1 character long.");
   }
+  validateTodoExists(store, id);
 }

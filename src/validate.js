@@ -41,3 +41,12 @@ export function validateFindByTitle(store, title) {
     throw new AppError("The title must be at least 3 characters long.");
   }
 }
+
+export function validateUpdateTodo(store, id, newTitle) {
+  if (!id || isNaN(id)) {
+    throw new AppError("Provide a valid id number.");
+  }
+  if (!newTitle) {
+    throw new AppError("The new title must be at least 1 character long.");
+  }
+}

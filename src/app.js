@@ -5,6 +5,7 @@ import {
   add,
   complete,
   findByTitle,
+  updateTitle,
 } from "./todo.js";
 import { display } from "./display.js";
 import { AppError } from "./app-error.js";
@@ -13,6 +14,7 @@ import {
   validateCompleteParams,
   validateFindByTitle,
   validateTodoExists,
+  validateUpdateTodo,
 } from "./validate.js";
 
 export function createApp(todoStore, args) {
@@ -44,6 +46,13 @@ export function createApp(todoStore, args) {
           ? formatList(foundTodos)
           : "No todos found with this title",
       ]);
+      break;
+    case "update-title":
+      const [todoid, newTitle] = params;
+      const validatedTodoId = validateCompleteParams([todoid]);
+      validateUpdateTodo(todoStore, validatedTodoId, newTitle);
+      const updatedTodo = updateTitle(todoStore, validatedTodoId, newTitle);
+      display(["Updated todo:", format(updatedTodo)]);
       break;
     default:
       throw new AppError(`Unknown command: ${command}`);

@@ -1,4 +1,8 @@
-import { validateFindByTitle, validateTodoExists } from "./validate.js";
+import {
+  validateFindByTitle,
+  validateTodoExists,
+  validateUpdateTodo,
+} from "./validate.js";
 
 export function format(todo) {
   return `${todo.id} - [${todo.done ? "x" : " "}] ${todo.title}`;
@@ -58,4 +62,13 @@ export function findByTitle(store, title) {
   );
 
   return foundTodos;
+}
+
+export function updateTitle(store, id, newTitle) {
+  validateUpdateTodo(store, id, newTitle);
+  const todos = store.get();
+  const currentTodo = todos.find((todo) => todo.id === id);
+  currentTodo.title = newTitle;
+  store.set(todos);
+  return currentTodo;
 }

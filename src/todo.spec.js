@@ -88,51 +88,54 @@ describe('add', () => {
     const expected = {
       id: 1,
       done: false,
-      title: 'New Todo'
+      title: 'New Todo',
+      labels: []
     }
 
     const current = add(mockStore, params);
 
     expect(current).toStrictEqual(expected);
     expect(mockStore.set.mock.calls[0][0])
-      .toStrictEqual([expected]);
+        .toStrictEqual([expected]);
   });
 
   it('should append a new todo to the existing items', () => {
     const params = ['New Todo'];
-    const stored = [{id: 1, title: 'Todo 1', done: true}];
+    const stored = [{id: 1, title: 'Todo 1', done: true, labels: []}];
     const mockStore = createMockStore(stored);
     const expected = {
       id: 2,
       done: false,
-      title: 'New Todo'
+      title: 'New Todo',
+      labels: []
     }
 
     const current = add(mockStore, params);
 
     expect(current).toStrictEqual(expected);
     expect(mockStore.set.mock.calls[0][0])
-      .toStrictEqual([...stored, expected]);
+        .toStrictEqual([...stored, expected]);
   });
 
   it('should calculate the id by max id + 1, missing ids in a sequence', () => {
     const params = ['New Todo'];
     const stored = [
-      {id: 2, title: 'Todo 1', done: true},
-      {id: 4, title: 'Todo 1', done: true},
+      {id: 2, title: 'Todo 1', done: true, labels: []},
+      {id: 4, title: 'Todo 1', done: true, labels: []},
     ];
     const mockStore = createMockStore(stored);
     const expected = {
       id: 5,
       done: false,
-      title: 'New Todo'
+      title: 'New Todo',
+      labels: []
     }
 
     const current = add(mockStore, params);
 
     expect(current).toStrictEqual(expected);
     expect(mockStore.set.mock.calls[0][0])
-      .toStrictEqual([...stored, expected]);
+        .toStrictEqual([...stored, expected]);
   });
 });
 

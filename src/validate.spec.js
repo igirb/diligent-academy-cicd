@@ -1,8 +1,8 @@
 import {
-  validateAddParams,
-  validateCompleteParams,
-  validateTodoExists,
-  validateFindById,
+    validateAddParams,
+    validateCompleteParams,
+    validateTodoExists,
+    validateFindById,
     validateAddLabel,
 } from "./validate";
 import {jest} from '@jest/globals';
@@ -123,7 +123,7 @@ describe('validateTodoExists', () => {
         const id = 2;
         const mockStore = createMockStore([
             {title: 'todo title', id: 1, done: true},
-          {title: 'todo title', id: 31, done: true},
+            {title: 'todo title', id: 31, done: true},
             {title: 'todo title 2', id: 2, done: false}
         ])
         const expected = {title: 'todo title 2', id: 2, done: false};
@@ -165,38 +165,38 @@ describe('validateTodoExists', () => {
 });
 
 describe("validateFindById", () => {
-  it("should pass and return the numeric ID when a valid numeric ID is provided", () => {
-    const params = ["4"];
-    const expected = 4;
+    it("should pass and return the numeric ID when a valid numeric ID is provided", () => {
+        const params = ["4"];
+        const expected = 4;
 
-    const current = validateFindById(params);
+        const current = validateFindById(params);
 
-    expect(current).toStrictEqual(expected);
-  });
+        expect(current).toStrictEqual(expected);
+    });
 
-  it("should throw an error when a non-numeric ID is provided", () => {
-    const params = ["abc"]; 
+    it("should throw an error when a non-numeric ID is provided", () => {
+        const params = ["abc"];
 
-    expect(() => validateFindById(params)).toThrow(
-      "The ID must be a numeric value."
-    );
-  });
+        expect(() => validateFindById(params)).toThrow(
+            "The ID must be a numeric value."
+        );
+    });
 
-  it("should throw an error when no ID is provided", () => {
-    const params = [];
+    it("should throw an error when no ID is provided", () => {
+        const params = [];
 
-    expect(() => validateFindById(params)).toThrow(
-      "Invalid number of parameters for 'find-by-id'. Expected 1 parameter."
-    );
-  });
+        expect(() => validateFindById(params)).toThrow(
+            "Invalid number of parameters for 'find-by-id'. Expected 1 parameter."
+        );
+    });
 
-  it("should throw an error when multiple parameters are provided", () => {
-    const params = ["1", "2"];
+    it("should throw an error when multiple parameters are provided", () => {
+        const params = ["1", "2"];
 
-    expect(() => validateFindById(params)).toThrow(
-      "Invalid number of parameters for 'find-by-id'. Expected 1 parameter."
-    );
-  });
+        expect(() => validateFindById(params)).toThrow(
+            "Invalid number of parameters for 'find-by-id'. Expected 1 parameter."
+        );
+    });
 });
 
 describe("validateAddLabel", () => {

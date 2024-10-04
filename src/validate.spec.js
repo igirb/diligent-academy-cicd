@@ -3,6 +3,7 @@ import {
   validateCompleteParams,
   validateTodoExists,
   validateFindById,
+    validateAddLabel,
 } from "./validate";
 import {jest} from '@jest/globals';
 
@@ -196,4 +197,42 @@ describe("validateFindById", () => {
       "Invalid number of parameters for 'find-by-id'. Expected 1 parameter."
     );
   });
+});
+
+describe("validateAddLabel", () => {
+
+    it("should return todoId and label if both are valid", () => {
+        const params = ["1", "urgent"];
+        const result = validateAddLabel(params);
+        expect(result).toEqual([1, "urgent"]);
+    });
+
+    it("should throw an error if there are more or fewer than two parameters", () => {
+        const params = ["1"];
+        expect(() => validateAddLabel(params)).toThrow("Invalid number of parameters. Please provide one todo id and one label as parameters.");
+    });
+
+    it("should throw an error if todoId is not a number", () => {
+        const params = ["abc", "urgent"];
+        expect(() => validateAddLabel(params)).toThrow("Provide a valid id number.");
+    });
+
+    it("should throw an error if the label is an empty string", () => {
+        const params = ["1", ""];
+        expect(() => validateAddLabel(params)).toThrow("The label must be a non zero length string without spaces.");
+    });
+
+    it("should throw an error if the label contains spaces", () => {
+        const params = ["1", "urgent label"];
+        expect(() => validateAddLabel(params)).toThrow("The label must be a non zero length string without spaces.");
+    });
+
+    it("should throw an error if todoId is null or undefined", () => {
+        const params = [null, "urgent"];
+        expect(() => validateAddLabel(params)).toThrow("Provide a valid id number.");
+
+        const params2 = [undefined, "urgent"];
+        expect(() => validateAddLabel(params2)).toThrow("Provide a valid id number.");
+    });
+
 });

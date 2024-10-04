@@ -33,6 +33,7 @@ export function add(store, params) {
     title,
     done: false,
     id: nextId(todos),
+    labels: [],
   };
   const toStore = [...todos, newTodo];
   store.set(toStore);
@@ -94,6 +95,24 @@ export function findById(store, id) {
   return todo;
 }
 
+export function addLabel(store, id, label) {
+  const todos = store.get();
+  const todo = validateTodoExists(store, id);
+
+  if (!todo.labels) {
+
+    todo.labels = [];
+  }
+
+  if (!todo.labels.includes(label)) {
+    todo.labels.push(label);
+  }
+
+  store.set(todos);
+
+  return todo;
+}
+  
 export function findByStatus(store, status) {
   const todos = store.get();
   let foundTodosByStatus;

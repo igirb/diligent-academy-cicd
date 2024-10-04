@@ -65,6 +65,17 @@ export function validateUpdateTodo(store, id, newTitle) {
     if (!newTitle) {
         throw new AppError("The new title must be at least 1 character long.");
     }
+  validateTodoExists(store, id);
+}
+
+export function validateFindByStatus(store, status) {
+  if (!status || status.trim().length === 0) {
+    throw new AppError("You must provide a status! Either done or not-done");
+  } else if (status.trim() !== "done" && status.trim() !== "not-done") {
+    throw new AppError(
+      "You entered a wrong status. The status can only be either done or not-done"
+    );
+  }
 }
 
 export function validateAddLabel(params) {

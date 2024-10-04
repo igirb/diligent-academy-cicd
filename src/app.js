@@ -1,22 +1,25 @@
 import {
-    list,
-    formatList,
-    format,
-    add,
-    complete,
-    findByTitle,
-    updateTitle,
-    addLabel,
+  list,
+  formatList,
+  format,
+  add,
+  complete,
+  findByTitle,
+  updateTitle,
+  findByStatus,
+  addLabel,
 } from "./todo.js";
 import {display} from "./display.js";
 import {AppError} from "./app-error.js";
 import {
-    validateAddParams,
-    validateCompleteParams,
-    validateFindByTitle,
-    validateFindById,
-    validateUpdateTodo,
-    validateAddLabel,
+  validateAddParams,
+  validateCompleteParams,
+  validateFindByTitle,
+  validateFindById,
+  validateTodoExists,
+  validateUpdateTodo,
+  validateFindByStatus,
+  validateAddLabel,
 } from "./validate.js";
 
 export function createApp(todoStore, args) {
@@ -46,7 +49,6 @@ export function createApp(todoStore, args) {
             const [title] = params;
             validateFindByTitle(params, title);
             const foundTodos = findByTitle(todoStore, title);
-
             display([
                 "Found todos:",
                 foundTodos.length > 0
@@ -66,7 +68,21 @@ export function createApp(todoStore, args) {
             const labelledTodo = addLabel(todoStore, todoIdLabel, label);
             display(["Label added to todo:", format(labelledTodo)]);
             break;
-        default:
-            throw new AppError(`Unknown command: ${command}`);
     }
+    case "update-title":
+      const [todoid, newTitle] = params;
+      const validatedTodoId = validateCompleteParams([todoid]);
+      validateUpdateTodo(todoStore, validatedTodoId, newTitle);
+      const updatedTodo = updateTitle(todoStore, validatedTodoId, newTitle);
+      display(["Updated todo:", format(updatedTodo)]);
+      break;
+    case "find-by-status":
+      const [status] = params;
+      validateFindByStatus(todoStore, status);
+      const foundTodosByStatus = findByStatus(todoStore, status);
+      display(["Found todos:", formatList(foundTodosByStatus)]);
+      break;
+    default:
+      throw new AppError(`Unknown command: ${command}`);
+  }
 }

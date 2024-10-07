@@ -11,8 +11,8 @@ function createMockStore(data) {
 
 describe('format', () => {
   it('should format a not done todo', () => {
-    const todo = { title: 'todo title', id: 1, done: false };
-    const expected = '1 - [ ] todo title';
+    const todo = { title: 'todo title', id: 1, done: false, labels: [] };
+    const expected = '1 - [ ] () todo title';
 
     const current = format(todo)
 
@@ -20,8 +20,8 @@ describe('format', () => {
   })
 
   it('should format a done todo', () => {
-    const todo = { title: 'todo title', id: 1, done: true };
-    const expected = '1 - [x] todo title';
+    const todo = { title: 'todo title', id: 1, done: true, labels: [] };
+    const expected = '1 - [x] () todo title';
 
     const current = format(todo)
 
@@ -32,12 +32,12 @@ describe('format', () => {
 describe('formatList', () => {
   it('should format a list of todos', () => {
     const todos = [
-      { title: 'todo title', id: 1, done: true },
-      { title: 'todo title 2', id: 2, done: false }
+      { title: 'todo title', id: 1, done: true, labels: [] },
+      { title: 'todo title 2', id: 2, done: false, labels: [] }
     ];
     const expected = [
-      '1 - [x] todo title',
-      '2 - [ ] todo title 2'
+      '1 - [x] () todo title',
+      '2 - [ ] () todo title 2'
     ];
 
     const current = formatList(todos)

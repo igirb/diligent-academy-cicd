@@ -1,5 +1,5 @@
 import {
-    list, formatList, format, add, complete, findByTitle, updateTitle, findByStatus, addLabel,
+    list, formatList, format, add, complete, findByTitle, updateTitle, findByStatus, addLabel, deleteLabel,
 } from "./todo.js";
 import {display} from "./display.js";
 import {AppError} from "./app-error.js";
@@ -8,10 +8,9 @@ import {
     validateCompleteParams,
     validateFindByTitle,
     validateFindById,
-    validateTodoExists,
     validateUpdateTodo,
     validateFindByStatus,
-    validateAddLabel,
+    validateLabelParams,
 } from "./validate.js";
 
 export function createApp(todoStore, args) {
@@ -51,9 +50,13 @@ export function createApp(todoStore, args) {
             display(["Updated todo:", format(updatedTodo)]);
             break;
         case "add-label":
-            const [todoIdLabel, label] = validateAddLabel(params);
+            const [todoIdLabel, label] = validateLabelParams(params);
             const labelledTodo = addLabel(todoStore, todoIdLabel, label);
             display(["Label added to todo:", format(labelledTodo)]);
+            break;
+        case "delete-label":
+            const todoWithDeletedLabel = deleteLabel(todoStore, ...validateLabelParams(params));
+            display(["Label deleted from todo:", format(todoWithDeletedLabel)]);
             break;
         case "find-by-status":
             const [status] = params;

@@ -78,7 +78,7 @@ export function validateFindByStatus(store, status) {
   }
 }
 
-export function validateAddLabel(params) {
+export function validateLabelParams(params) {
     if (params.length !== 2) {
         throw new AppError(
             "Invalid number of parameters. Please provide one todo id and one label as parameters."
@@ -96,4 +96,15 @@ export function validateAddLabel(params) {
     }
 
     return [Number(todoId), label];
+}
+
+export function validateLabelExists(todo, labelName) {
+    const labels = todo.labels;
+    const labelIndex = labels.findIndex(label => label === labelName);
+
+    if(labelIndex === -1) {
+        throw new Error(`Label ${labelName} is not exist for ${todo.title}.`);
+    }
+
+    return labelIndex;
 }

@@ -1,12 +1,13 @@
 import {
     validateFindByTitle,
+    validateLabelExists,
     validateTodoExists,
     validateUpdateTodo,
 } from "./validate.js";
 import {AppError} from "./app-error.js";
 
 export function format(todo) {
-    return `${todo.id} - [${todo.done ? "x" : " "}] ${todo.title}`;
+    return `${todo.id} - [${todo.done ? "x" : " "}] (${todo.labels}) ${todo.title}`;
 }
 
 export function formatList(todos) {
@@ -100,13 +101,30 @@ export function addLabel(store, id, label) {
     const todo = validateTodoExists(store, id);
 
     if (!todo.labels) {
-
         todo.labels = [];
     }
 
     if (!todo.labels.includes(label)) {
         todo.labels.push(label);
     }
+
+    const index = todos.findIndex((todo) => todo.id === id);
+    todos[index] = todo;
+
+    store.set(todos);
+
+    return todo;
+}
+
+export function deleteLabel(store, id, labelName) {
+    const todos = store.get();
+    const todo = validateTodoExists(store, id);
+    const labelIndex = validateLabelExists(todo, labelName);
+
+    todo.labels.splice(labelIndex, 1);
+
+    const todoIndex = todos.findIndex(todo => todo.id === id);
+    todos[todoIndex] = todo;
 
     store.set(todos);
 
